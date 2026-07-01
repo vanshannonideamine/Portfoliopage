@@ -1,701 +1,658 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="h1cJnEPSZ0xVRwvS_P71H58PUz2sRvPDOw92F0FP32c">
-    --panel: #141414;
-    --panel2: #1a1a1a;
-    --border: #252525;
-    --border2: #2f2f2f;
-    --orange: #e05c1a;
-    --orange-dim: #a04412;
-    --white: #eeebe4;
-    --gray: #787870;
-    --light: #b8b4aa;
-    --cream: #d4d0c8;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="h1cJnEPSZ0xVRwvS_P71H58PUz2sRvPDOw92F0FP32c">
+    <title>VanBlake Shannon — Field Doctrine</title>
+    <meta name="description" content="30 years. The Worlds leading OT-Facilities-Life-Safety-Risk-Engineer. Zero fatalities. Zero unplanned shutdowns.">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #090909;
+            --dark: #101010;
+            --panel: #141414;
+            --panel2: #1a1a1a;
+            --border: #252525;
+            --border2: #2f2f2f;
+            --orange: #e05c1a;
+            --orange-dim: #a04412;
+            --white: #eeebe4;
+            --gray: #888580;
+            --dark-gray: #444340;
+            --glow: 0 0 10px rgba(224, 92, 26, 0.2);
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'IBM+Plex+Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.75;
-    overflow-x: hidden;
-  }
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
 
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9998;
-    opacity: 0.4;
-  }
+        /* Scanline Overlay */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 99999;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
 
-  /* ─── HEADER ─── */
-  header {
-    border-bottom: 1px solid var(--border);
-    position: relative;
-  }
+        /* App Layout */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
 
-  .header-grid {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    min-height: 360px;
-  }
+        /* Sidebar Styling */
+        sidebar {
+            background-color: var(--dark);
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            width: 280px;
+            height: 100vh;
+            z-index: 100;
+        }
 
-  .header-left {
-    padding: 52px 52px 48px;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+        .profile-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-  .doc-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.22em;
-    color: var(--orange);
-    text-transform: uppercase;
-    margin-bottom: 28px;
-  }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 4px;
+            border: 1px solid var(--border2);
+            background: #151515 url('https://images.pexels.com/photos/3825578/pexels-photo-3825578.jpeg?auto=compress&cs=tinysrgb&w=400') center/cover no-repeat;
+            margin: 0 auto 1rem;
+            position: relative;
+            box-shadow: var(--glow);
+        }
 
-  h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(58px, 8vw, 96px);
-    line-height: 0.9;
-    letter-spacing: 0.015em;
-    color: var(--white);
-  }
+        .avatar::after {
+            content: 'ACTIVE';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--orange);
+            color: var(--black);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 1px 6px;
+            border-radius: 2px;
+            letter-spacing: 1px;
+        }
 
-  h1 em {
-    color: var(--orange);
-    font-style: normal;
-  }
+        h1.nav-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
 
-  .header-tagline {
-    margin-top: 28px;
-    max-width: 500px;
-    color: var(--light);
-    font-size: 14.5px;
-    line-height: 1.75;
-    border-left: 2px solid var(--orange);
-    padding-left: 18px;
-  }
+        .nav-subtitle {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-  .header-meta {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--gray);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-top: 36px;
-  }
+        nav {
+            margin-top: 2rem;
+            flex-grow: 1;
+        }
 
-  .header-right {
-    padding: 44px 36px;
-    background: var(--panel);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0;
-  }
+        nav ul {
+            list-style: none;
+        }
 
-  .stat {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-  }
+        nav ul li {
+            margin-bottom: 0.5rem;
+        }
 
-  .stat:last-child { border-bottom: none; }
+        nav ul li a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
 
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 46px;
-    color: var(--orange);
-    line-height: 1;
-    letter-spacing: 0.02em;
-  }
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--orange);
+            background-color: var(--panel);
+            border-color: var(--border);
+            padding-left: 1.25rem;
+        }
 
-  .stat-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    color: var(--gray);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-top: 3px;
-  }
+        .sidebar-footer {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--dark-gray);
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
 
-  /* ─── TICKER ─── */
-  .ticker {
-    background: var(--orange);
-    padding: 9px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    border-top: 1px solid var(--orange-dim);
-  }
+        /* Main Content Styling */
+        main {
+            margin-left: 280px;
+            padding: 3rem;
+            max-width: 1200px;
+        }
 
-  .ticker-track {
-    display: inline-block;
-    animation: scroll 32s linear infinite;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: var(--black);
-    text-transform: uppercase;
-  }
+        /* Section Controller */
+        .content-section {
+            display: none;
+        }
 
-  @keyframes scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
 
-  /* ─── NAV ─── */
-  nav {
-    border-bottom: 1px solid var(--border);
-    padding: 0 52px;
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-  }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-  nav a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--gray);
-    text-decoration: none;
-    padding: 16px 20px;
-    border-right: 1px solid var(--border);
-    transition: color 0.2s, background 0.2s;
-    white-space: nowrap;
-  }
+        /* Document Headers */
+        .doc-header {
+            border-bottom: 1px solid var(--border2);
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
 
-  nav a:first-child { border-left: 1px solid var(--border); }
-  nav a:hover { color: var(--orange); background: var(--panel); }
+        .doc-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 1px;
+            background-color: var(--orange);
+        }
 
-  /* ─── MAIN ─── */
-  main {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 52px 100px;
-  }
+        .doc-classification {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
 
-  /* ─── SECTION ─── */
-  .section {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 52px;
-    padding: 72px 0;
-    border-bottom: 1px solid var(--border);
-    opacity: 0;
-    transform: translateY(24px);
-    animation: rise 0.7s ease forwards;
-  }
+        .doc-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1;
+            letter-spacing: 1px;
+            color: var(--white);
+        }
 
-  .section:nth-child(1) { animation-delay: 0.05s; }
-  .section:nth-child(2) { animation-delay: 0.15s; }
-  .section:nth-child(3) { animation-delay: 0.25s; }
-  .section:nth-child(4) { animation-delay: 0.35s; }
-  .section:nth-child(5) { animation-delay: 0.45s; }
-  .section:nth-child(6) { animation-delay: 0.55s; }
-  .section:nth-child(7) { animation-delay: 0.65s; }
+        /* Panels and Cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
 
-  @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
-  }
+        .panel {
+            background-color: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2rem;
+            position: relative;
+        }
 
-  .sec-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.2em;
-    color: var(--orange);
-    text-transform: uppercase;
-    padding-top: 4px;
-    position: sticky;
-    top: 28px;
-    height: fit-content;
-    line-height: 1.6;
-  }
+        .panel-header {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--orange-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
 
-  .sec-body h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 0.04em;
-    color: var(--white);
-    margin-bottom: 24px;
-    line-height: 1.05;
-  }
+        .panel-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
 
-  .sec-body p {
-    color: var(--light);
-    font-size: 14.5px;
-    margin-bottom: 18px;
-    max-width: 640px;
-  }
+        /* Typography & List Layouts */
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-size: 0.95rem;
+        }
 
-  .sec-body p strong {
-    color: var(--white);
-    font-weight: 500;
-  }
+        .lead {
+            font-size: 1.1rem;
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
 
-  /* ─── PULL QUOTE ─── */
-  .pull-quote {
-    margin: 32px 0;
-    padding: 28px 32px;
-    background: var(--panel);
-    border-left: 3px solid var(--orange);
-    position: relative;
-  }
+        .highlight-box {
+            background-color: var(--panel2);
+            border-left: 3px solid var(--orange);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
 
-  .pull-quote p {
-    font-size: 16px !important;
-    color: var(--white) !important;
-    font-style: italic;
-    font-weight: 300;
-    line-height: 1.65;
-    margin: 0 !important;
-    max-width: 580px;
-  }
+        .meta-list {
+            list-style: none;
+        }
 
-  .pull-quote cite {
-    display: block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.16em;
-    color: var(--gray);
-    text-transform: uppercase;
-    margin-top: 12px;
-    font-style: normal;
-  }
+        .meta-list li {
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            display: flex;
+        }
 
-  /* ─── PROOF CARDS ─── */
-  .cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 28px;
-  }
+        .meta-list li .label {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--orange);
+            width: 140px;
+            flex-shrink: 0;
+        }
 
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-top: 2px solid var(--orange);
-    padding: 22px 24px;
-    transition: border-color 0.25s, background 0.25s;
-  }
+        /* Timelines */
+        .timeline {
+            position: relative;
+            margin-left: 1rem;
+            padding-left: 2rem;
+            border-left: 1px solid var(--border);
+        }
 
-  .card:hover {
-    background: var(--panel2);
-    border-top-color: var(--white);
-  }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
 
-  .card-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--orange);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--black);
+            border: 2px solid var(--orange);
+            border-radius: 50%;
+            transform: translateX(-4px);
+        }
 
-  .card p {
-    font-size: 13px !important;
-    color: var(--light) !important;
-    margin: 0 !important;
-    line-height: 1.65;
-  }
+        .timeline-date {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--orange);
+            margin-bottom: 0.25rem;
+        }
 
-  /* ─── TAGS ─── */
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-top: 24px;
-  }
+        .timeline-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
 
-  .tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--cream);
-    border: 1px solid var(--border2);
-    padding: 6px 13px;
-    text-transform: uppercase;
-    transition: border-color 0.2s, color 0.2s;
-    cursor: default;
-  }
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
 
-  .tag:hover { border-color: var(--orange); color: var(--orange); }
+        .stat-card {
+            background-color: var(--panel2);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 4px;
+        }
 
-  /* ─── DIVIDER LINE ─── */
-  .rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 8px 0;
-  }
+        .stat-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--orange);
+            line-height: 1;
+        }
 
-  /* ─── CONTACT ─── */
-  .contact-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-top: 8px;
-  }
+        .stat-lbl {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.25rem;
+        }
 
-  .contact-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
-    color: var(--light);
-    letter-spacing: 0.07em;
-  }
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--orange);
+            border: 1px solid var(--orange);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-  .contact-row::before {
-    content: '///';
-    color: var(--orange);
-    font-size: 9px;
-    letter-spacing: 0.05em;
-    flex-shrink: 0;
-  }
+        .btn:hover {
+            background-color: var(--orange);
+            color: var(--black);
+            box-shadow: var(--glow);
+        }
 
-  .contact-row a {
-    color: var(--light);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+        /* Technical Grid for Intelligence Section */
+        .intel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
 
-  .contact-row a:hover { color: var(--orange); }
+        .intel-card {
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 4px;
+            background-color: var(--panel);
+        }
 
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 760px) {
-    .header-grid { grid-template-columns: 1fr; }
-    .header-left { padding: 36px 24px 32px; }
-    .header-right { border-top: 1px solid var(--border); padding: 28px 24px; flex-direction: row; flex-wrap: wrap; gap: 20px; }
-    .stat { border-bottom: none; padding: 0; }
-    nav { padding: 0 24px; }
-    main { padding: 0 24px 80px; }
-    .section { grid-template-columns: 1fr; gap: 18px; padding: 52px 0; }
-    .sec-label { position: static; }
-    .cards { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 10px; padding: 20px 24px; text-align: center; }
-  }
-</style>
+        .intel-card h4 {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Post Feed Styling */
+        .post-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .post-card {
+            background-color: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2rem;
+        }
+
+        .post-meta {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        /* Responsive */
+        @media(max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+            sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            main {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ═══ HEADER ═══ -->
-<header>
-  <div class="header-grid">
-    <div class="header-left">
-      <div>
-        <div class="doc-label">Field Doctrine &nbsp;—&nbsp; Rev. 1.0 &nbsp;—&nbsp; ID34 Mining & Engineering &nbsp;—&nbsp; Houston, TX</div>
-        <h1>VanBlake<br><em>Shannon</em></h1>
-        <div class="header-tagline">
-          Thirty years. Zero fatalities. Zero unplanned shutdowns.<br>
-          Director of AI Operations &nbsp;·&nbsp; Critical Infrastructure &nbsp;·&nbsp; Automation & Controls
-        </div>
-        <div class="header-meta">Houston, TX &nbsp;·&nbsp; Open to Bastrop / San Marcos &nbsp;·&nbsp; Van.shannon.id34@gmail.com</div>
-      </div>
+    <div class="app-container">
+        <sidebar>
+            <div class="profile-container">
+                <div class="avatar"></div>
+                <h1 class="nav-title">VanBlake Shannon</h1>
+                <div class="nav-subtitle">PSE / Risk Engineer</div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#foundation" class="nav-link active" onclick="switchSection('foundation')">// FOUNDATION</a></li>
+                    <li><a href="#doctrine" class="nav-link" onclick="switchSection('doctrine')">// FIELD DOCTRINE</a></li>
+                    <li><a href="#intelligence" class="nav-link" onclick="switchSection('intelligence')">// INTEL DECK</a></li>
+                    <li><a href="#log" class="nav-link" onclick="switchSection('log')">// OPERATIONAL LOG</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div>LOC: HOUSTON_TX</div>
+                <div>SYS: RE-2026_V1</div>
+            </div>
+        </sidebar>
+
+        <main>
+            
+            <section id="foundation" class="content-section active">
+                <div class="doc-header">
+                    <div class="doc-classification">Classification: Public Dossier</div>
+                    <h2 class="doc-title">The Foundation</h2>
+                </div>
+                
+                <div class="highlight-box">
+                    <p class="lead" style="margin-bottom:0;">
+                        Operational Overview: 30 years of cross-functional lifecycle execution in Critical Infrastructure, Operational Technology (OT), Building Automation Systems (BAS), and Life-Safety Ecosystems. Zero fatalities. Zero unplanned infrastructure failures. 
+                    </p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="panel">
+                        <div class="panel-header"><span>Core Identity</span><span>File: 01-A</span></div>
+                        <h3 class="panel-title">Professional Profile</h3>
+                        <p>
+                            VanBlake Shannon operates at the convergence of heavy infrastructure and software architecture. As a licensed Professional Stationary Engineer (PSE), he has engineered high-availability blueprints for Tier-III/IV mission-critical ecosystems, industrial arrays, and automated complexes. 
+                        </p>
+                        <p>
+                            His engineering lens integrates legacy thermodynamic mechanics with contemporary automation topologies, translating complex building operations into actionable code and hard metric analysis.
+                        </p>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header"><span>Dossier Metrics</span><span>File: 01-B</span></div>
+                        <h3 class="panel-title">Technical Realities</h3>
+                        <ul class="meta-list">
+                            <li><span class="label">Field Experience</span><span>30 Years Total</span></li>
+                            <li><span class="label">BAS Specialization</span><span>10 Years Niagara Framework</span></li>
+                            <li><span class="label">Jurisdiction</span><span>Houston, Texas / Industrial Hubs</span></li>
+                            <li><span class="label">Core Mandate</span><span>Life-Safety & Risk Mitigation</span></li>
+                            <li><span class="label">Ethos Identifier</span><span>The Sheepdog Architecture</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-val">30</div><div class="stat-lbl">Years Field Intel</div></div>
+                    <div class="stat-card"><div class="stat-val">0</div><div class="stat-lbl">Fatalities Permitted</div></div>
+                    <div class="stat-card"><div class="stat-val">10</div><div class="stat-lbl">Niagara Core Focus</div></div>
+                    <div class="stat-card"><div class="stat-val">100%</div><div class="stat-lbl">System Sovereignty</div></div>
+                </div>
+            </section>
+
+            <section id="doctrine" class="content-section">
+                <div class="doc-header">
+                    <div class="doc-classification">Classification: Directives</div>
+                    <h2 class="doc-title">Field Doctrine</h2>
+                </div>
+
+                <div class="panel" style="margin-bottom: 3rem;">
+                    <div class="panel-header"><span>Operational Thesis</span><span>Directive 02-A</span></div>
+                    <h3 class="panel-title">The Sheepdog Imperative</h3>
+                    <p class="lead">
+                        "Ecosystems do not fail by chance. They fail because the safeguards were allowed to silently bleed compliance."
+                    </p>
+                    <p>
+                        True engineering is an adversarial defensive practice. The "Sheepdog" mentality dictates that systems must be proactively patrolled, monitored, and hardened against unexpected deviations, environmental stress, or structural decay. Compromise on life-safety deployment is an absolute failure mode.
+                    </p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2016 – PRESENT</div>
+                        <h4 class="timeline-title">Mastery of the Niagara Framework & OT Integration</h4>
+                        <p>
+                            Focused directly on standardizing operational technology integrations using the Niagara Framework. Developed logic schemas connecting industrial HVAC, life-safety loops, secondary power arrays, and cloud monitoring tools into coherent, hardened interfaces.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">1996 – 2016</div>
+                        <h4 class="timeline-title">Heavy Infrastructure Operations & Critical Plants</h4>
+                        <p>
+                            Deployed as a frontline operations engineer and chief technician inside high-pressure steam loops, commercial infrastructure, combined-cycle auxiliary systems, and deep chiller configurations across the Gulf Coast region.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="intelligence" class="content-section">
+                <div class="doc-header">
+                    <div class="doc-classification">Classification: System Architecture</div>
+                    <h2 class="doc-title">The Intel Deck</h2>
+                </div>
+
+                <p class="lead">
+                    Current active research loops, edge computing development, and hardware arrays deployed under the id34hub directive.
+                </p>
+
+                <div class="intel-grid">
+                    <div class="intel-card">
+                        <div class="timeline-date">HARDWARE // IOT</div>
+                        <h4>ESP32 Decentralized Infrastructure</h4>
+                        <p>Developing standalone environmental arrays, sensor logging infrastructure, and security platforms using the ESP32 WROOM DevKit. Prioritizing field-level firmware execution outside of cloud dependencies.</p>
+                    </div>
+                    <div class="intel-card">
+                        <div class="timeline-date">ENERGY ANALYSIS</div>
+                        <h4>Industrial Energy Inflation Analyzer</h4>
+                        <p>An algorithm-driven auditing model built to parse complex utility tariffs, real-time demand variations, and inflationary load-curves inside heavily loaded facilities.</p>
+                    </div>
+                    <div class="intel-card">
+                        <div class="timeline-date">THERMAL ANALYSIS</div>
+                        <h4>Behind-The-Meter Micro-Mining</h4>
+                        <p>Engineering thermodynamic loops designed to convert rejected thermal output from low-voltage crypto-computing tasks into baseline radiant heat mitigation systems.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="log" class="content-section">
+                <div class="doc-header">
+                    <div class="doc-classification">Classification: Live Field Transmission</div>
+                    <h2 class="doc-title">Operational Log</h2>
+                </div>
+
+                <div class="post-feed" id="postFeedContainer">
+                    <div class="post-card">
+                        <div class="post-meta">DATE: MAY 14, 2026 | CATEGORY: ENERGY INITIATIVES</div>
+                        <h3 class="post-title">DOE Behind-The-Meter Project Submission Complete</h3>
+                        <p>
+                            Formal deployment schematics for the solar-isolated micro-miner array have been submitted to the Department of Energy "Behind the Meter" technology challenge. The system pairs off-grid solar capture with dedicated local computation to evaluate localized thermal load balances.
+                        </p>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-meta">DATE: FEb 18, 2026 | CATEGORY: SYSTEM ARCHITECTURE</div>
+                        <h3 class="post-title">Industrial Energy Inflation AI Analyzer Deployment</h3>
+                        <p>
+                            The web analytics portal for the Industrial Energy Inflation AI Analyzer is fully built. This setup processes facility baseline consumption against macro economic variables, offering industrial operators clear foresight into rising energy load costs.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
-    <div class="header-right">
-      <div class="stat">
-        <div class="stat-num">30</div>
-        <div class="stat-label">Years Field Experience</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">0</div>
-        <div class="stat-label">Fatalities on Record</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">0</div>
-        <div class="stat-label">Unplanned Shutdowns</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">$20M</div>
-        <div class="stat-label">Post-Harvey Rebuild — Alley Theatre</div>
-      </div>
-    </div>
-  </div>
-</header>
 
-<!-- ═══ TICKER ═══ -->
-<div class="ticker">
-  <div class="ticker-track">
-    Automation &amp; Controls &nbsp;///&nbsp; PLC · HMI · SCADA &nbsp;///&nbsp; OT/ICS Security &nbsp;///&nbsp; BAS · BMS Systems &nbsp;///&nbsp; NFPA 79 · UL508A · NEC &nbsp;///&nbsp; Machine Commissioning &nbsp;///&nbsp; Thermal Management &nbsp;///&nbsp; Edge Computing &nbsp;///&nbsp; Critical Infrastructure &nbsp;///&nbsp; Zero Unplanned Shutdowns &nbsp;///&nbsp; SOETT™ Framework &nbsp;///&nbsp; Bitcoin Mining Infrastructure &nbsp;///&nbsp; Additive Manufacturing &nbsp;///&nbsp; Built Not Bought &nbsp;///&nbsp;
-    Automation &amp; Controls &nbsp;///&nbsp; PLC · HMI · SCADA &nbsp;///&nbsp; OT/ICS Security &nbsp;///&nbsp; BAS · BMS Systems &nbsp;///&nbsp; NFPA 79 · UL508A · NEC &nbsp;///&nbsp; Machine Commissioning &nbsp;///&nbsp; Thermal Management &nbsp;///&nbsp; Edge Computing &nbsp;///&nbsp; Critical Infrastructure &nbsp;///&nbsp; Zero Unplanned Shutdowns &nbsp;///&nbsp; SOETT™ Framework &nbsp;///&nbsp; Bitcoin Mining Infrastructure &nbsp;///&nbsp; Additive Manufacturing &nbsp;///&nbsp; Built Not Bought &nbsp;///&nbsp;
-  </div>
-</div>
+    <script>
+        function switchSection(sectionId) {
+            // Deactivate all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active'));
 
-<!-- ═══ NAV ═══ -->
-<nav>
-  <a href="#foundation">Foundation</a>
-  <a href="#doctrine">Doctrine</a>
-  <a href="#gbamfs">GBAMFS</a>
-  <a href="#imasons">iMasons</a>
-  <a href="#alley">Alley Theatre</a>
-  <a href="#healthcare">Healthcare</a>
-  <a href="#id34">ID34</a>
-  <a href="#positioning">Positioning</a>
-  <a href="#contact">Contact</a>
-</nav>
+            // Deactivate all navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
 
-<!-- ═══ MAIN ═══ -->
-<main>
+            // Activate specific targets
+            const targetSection = document.getElementById(sectionId);
+            if(targetSection) {
+                targetSection.classList.add('active');
+            }
 
-  <!-- BLOCK 0 — FOUNDATION -->
-  <div class="section" id="foundation">
-    <div class="sec-label">Foundation<br>1990s–2000s</div>
-    <div class="sec-body">
-      <h2>Start With the Box.</h2>
-      <p>Before critical facilities, before $20 million rebuilds, before AI compute infrastructure — The year 1988. I requested materials for my birthday half-pipe. Built solo at age 13 from Blueprints ordered from Thrasher Skateboarding magazine for the 8'x 8' vert ramp. No crew. No contractor. Measured, cut,and hand assembled with care. </p>
-      <p>That same logic carried into a career in custom cabinetry and furniture building — where a millimeter off is visible, where the joinery either holds or it doesn't, and where the person doing the work is accountable to the finished product every time someone opens a drawer. From there into custom residential construction alongside Kirk Sanders — one of the most respected custom home builders in the region — learning framing, finish work, and the relationship between a plan on paper and what a building actually requires to stand.</p>
-      <p>Luxury apartment construction followed. Same discipline. Larger box. More systems, more coordination, more contractors, more code. Low-voltage, AV, and structured cabling across multi-unit developments where the work had to be right the first time because tenants were moving in behind it.</p>
-      <p>The Kemah Boardwalk rebuild after Tropical Storm Allison was the first large-scale infrastructure event — storm damage, compressed timeline, no margin for error on a commercial waterfront property. The work got done. The boardwalk reopened.</p>
+            const activeLink = document.querySelector(`a[href="#${sectionId}"]`);
+            if(activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Push viewport to the top of content window
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-      <div class="pull-quote">
-        <p>"It's all just building boxes. Different boxes go inside different boxes."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-
-      <p>Every decade since has been the same observation applied to a larger, more complex, more consequential box. The cabinetry taught precision. The custom homes taught systems thinking. I became the Contractor people call when no one else could fix the situation. The commercial builds introduced me to industrial operations and infrastrucure. Intrigued, I became an Engineer. All of it transferred.</p>
-    </div>
-  </div>
-
-  <!-- BLOCK 1 — DOCTRINE -->
-  <div class="section" id="doctrine">
-    <div class="sec-label">Field<br>Doctrine</div>
-    <div class="sec-body">
-      <h2>What This Is</h2>
-      <p>Van Blake Shannon has been the last line of defense in rooms where failure was not a budget line — it was a body count. Thirty years. Zero fatalities. Zero unplanned shutdowns.</p>
-      <p>This document is not a resume. Resumes describe job titles. This describes what those titles required when the situation had no clean answer — and what that record of outcomes means for the next organization that needs someone who has held that standard before.</p>
-
-      <div class="pull-quote">
-        <p>"My value is in the safety, compliance and efficiency blindspot most companies don't even know they have."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-
-      <p>The blindspot is consistent across industries. The gap between what a facility document says and what is actually installed, operational, and safe is where most organizations are most exposed — and least aware. Thirty years of field work across performing arts, healthcare, property management, and emerging compute infrastructure produced one consistent observation: <strong>compliance on paper is not compliance in reality.</strong></p>
-
-      <div class="pull-quote">
-        <p>"A building's only as smart as its least competent employee or its worst leader."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOCK 2 — GBAMFS THINK TANK -->
-  <div class="section" id="gbamfs">
-    <div class="sec-label">GBAMFS<br>Legislative<br>Lobbying</div>
-    <div class="sec-body">
-      <h2>The Corporate Remnant &amp; The Root</h2>
-      <p>The Gaming Brethren Advocates Mutual-aid Federation & Society (<a href="https://gbamfs.org" target="_blank" style="color:var(--orange); text-decoration:none; font-weight:500;">GBAMFS.org</a>) acts as a high-level operational corporate think tank. We actively lobby for effective, sustainable legislation against predatory system lockouts and service-driven models, defending asset permanence and digital interactivity rights across global markets.</p>
-      
-      <div class="pull-quote">
-        <p>"We are the remnant and the root—those who remember, those who rebuild. Gaming is not a service. It is not a subscription. It is not a leash."</p>
-        <cite>— GBAMFS Core Mission Statement</cite>
-      </div>
-
-      <p>Our four-member executive framework aligns direct cross-functional capabilities:</p>
-      <div class="cards">
-        <div class="card">
-          <div class="card-title">Van Shannon</div>
-          <p>Chief of Sustainable Engineering. Directing next-generation ecological, ethical planning, and critical infrastructure frameworks.</p>
-        </div>
-        <div class="card">
-          <div class="card-title">John Rigler</div>
-          <p>Web3 Expert & Crypto Consultant. Leading core cryptographic application design and full stack application-web integration.</p>
-        </div>
-        <div class="card">
-          <div class="card-title">Jdawg</div>
-          <p>Media Liaison & Communications. Managing global information pipelines via the <a href="https://biz.prlog.org/gbamfs" target="_blank" style="color:var(--orange); text-decoration:none;">PRLog Hub</a> and streaming infrastructure.</p>
-        </div>
-        <div class="card">
-          <div class="card-title">Ecosystem Seat</div>
-          <p>Dedicated to decentralized blockchain optimization and physical system auditing.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOCK 3 — IMASONS & HEROX -->
-  <div class="section" id="imasons">
-    <div class="sec-label">Global<br>Infrastructure<br>Boards</div>
-    <div class="sec-body">
-      <h2>Committee Appointments &amp; System Challenges</h2>
-      <p>Active integration with <a href="https://imasons.org" target="_blank" style="color:var(--orange); text-decoration:none; font-weight:500;">Infrastructure Masons (iMasons)</a>, a global forum shaping elite digital footprint standards. Serving on multi-tiered leadership committees to direct structural resource protocols:</p>
-      
-      <div class="contact-grid" style="margin-bottom:24px;">
-        <div class="contact-row"><strong>Innovation Committee Node:</strong> Direct tracking via the <a href="https://imasons.mobilize.io/groups/114071" target="_blank" style="color:var(--orange); text-decoration:none;">iMasons Innovation Group</a>.</div>
-        <div class="contact-row"><strong>iMWomen Global Alliance:</strong> Managed with Global Chair Heather Dooley via <a href="https://imasons.mobilize.io/groups/112539" target="_blank" style="color:var(--orange); text-decoration:none;">iMWomen Network</a>.</div>
-        <div class="contact-row"><strong>Ecosystem Commitments:</strong> Strategic deployment maps across Sustainability Committees, Education Panels, and the Latin Net divisions.</div>
-      </div>
-
-      <p>Concurrently driving off-grid distributed computation validation on the <a href="https://www.herox.com/crowdsourcing-community/id34mining-325711" target="_blank" style="color:var(--orange); text-decoration:none; font-weight:500;">HeroX Crowdsourcing Platform</a>. Our verified submission evaluates low-power solar ESP32 edge compute nodes functioning as reliable behind-the-meter energy storage integration layers.</p>
-    </div>
-  </div>
-
-  <!-- BLOCK 4 — ALLEY THEATRE -->
-  <div class="section" id="alley">
-    <div class="sec-label">Alley<br>Theatre<br>Houston</div>
-    <div class="sec-body">
-      <h2>Where the Standard Was Built</h2>
-      <p>The Alley Theatre holds the Special Tony Award for Outstanding Regional Theatre. The American Institute of Architects called it "inside and out, a brilliant theatrical event" — the only brutalist theatre of its era to win the AIA national Honor Award. Productions have transferred to Broadway, Lincoln Center, and the Venice Biennale.</p>
-      <p>It occupies a raw concrete landmark in the heart of Houston's Theatre District — designed by architect Ulrich Franzen with no right angles, curved walls wrapping three internal triangles, two stages connected by underground passages, and a four-story scene shop fourteen stories above street level where every set, prop, and costume for every production is built by hand. Backdrops valued at over a million dollars on some runs. The building was never designed for the infrastructure it had to carry. Systems were hidden wherever the architecture allowed.</p>
-      <p>Hurricane Harvey exposed every one of those compromises simultaneously.</p>
-      <p>Floodwater reached the sub-level infrastructure. A concrete block wall had failed around the frame of a steel door, collapsing into the switchgear room. A damaged sprinkler head continued filling the room independent of the pumps running to clear it. Restoring access required identifying that those two failures were connected before anything else could happen.</p>
-      <p>The $20 million rebuild that followed involved Bellows Construction, Britain Electric, and Johnson Controls — contractors with long-standing relationships and no tolerance for shortcuts. Every sensor in the BAS and BMS system was walked and verified with JCI. Every discrepancy between documentation and actual installed conditions was identified and corrected. The Alley conducted its first-ever digital fire extinguisher demonstration with the Houston Fire Department — fire marshal present, full company in attendance. A hurricane preparedness briefing was delivered to more than 200 staff on the Hubbard Stage.</p>
-
-      <div class="pull-quote">
-        <p>"Slow is smooth, smooth is fast."</p>
-        <cite>— U.S. Navy SEALs &nbsp;·&nbsp; Applied throughout the Alley Theatre rebuild</cite>
-      </div>
-
-      <div class="pull-quote">
-        <p>"The Alley was an ark of experience and knowledge. I learned something from everyone there."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOCK 5 — HEALTHCARE / CBRE -->
-  <div class="section" id="healthcare">
-    <div class="sec-label">Healthcare<br>&amp; Campus<br>Infrastructure</div>
-    <div class="sec-body">
-      <h2>When the Floor Cannot Go Dark</h2>
-      <p>Healthcare infrastructure operates under a different set of consequences. At Kelsey-Seybold Medical, an ATS transfer switch failed on an active surgical floor. The options were limited. The timeline was immediate. Resolution required working within live electrical systems, NEC compliance under pressure, and the judgment to sequence actions correctly when the margin for error was zero.</p>
-      <p>The floor stayed online. No patient impact. No code violations.</p>
-      <p>At CBRE's TMC-3 Helix Park campus expansion — one of the most complex medical real estate developments in Texas — the work shifted to scale. Multi-system coordination across active tenant operations. Campus infrastructure planning across buildings that could not stop functioning while new ones came online.</p>
-
-      <div class="pull-quote">
-        <p>"Compliance on paper is not compliance in reality."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-
-      <p>Both environments reinforced the same finding: the gap between what a facility document says and what is actually installed, operational, and safe is where organizations are most exposed — and the person who can close that gap without stopping operations is the one they cannot afford not to have.</p>
-
-      <div class="cards">
-        <div class="card">
-          <div class="card-title">Kelsey-Seybold Medical</div>
-          <p>Live ATS transfer switch resolution on an active surgical floor. Zero patient impact. Zero downtime. NEC-compliant under pressure.</p>
-        </div>
-        <div class="card">
-          <div class="card-title">CBRE — TMC-3 Helix Park</div>
-          <p>Campus expansion management across one of Texas's most complex medical real estate developments. Multi-system coordination across active tenant operations.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOCK 6 — ID34 -->
-  <div class="section" id="id34">
-    <div class="sec-label">ID34<br>Mining &amp;<br>Engineering</div>
-    <div class="sec-body">
-      <h2>The Same Discipline. A Smaller Box.</h2>
-      <p>In 2022, Shannon co-founded ID34 Mining & Engineering in Houston under the SOETT™ framework — Sustainable Operational Excellence Through Technology. The work applies thirty years of critical infrastructure doctrine directly to emerging compute systems.</p>
-      <p>The proof of concept is documented on video: a solar-powered ESP32 solo Bitcoin mining node — edge computing, thermal management, off-grid power — built, deployed, and running. A Phase 1 application was submitted to the DOE Beyond the Meter Energy Storage Integration Prize, addressing heat recovery from compute infrastructure before the AI buildout made it a mainstream conversation. The ID34 Thermal Texas Twin Turbo — a dual-node ESP32 miner in a 3D-printed hexagonal enclosure — is the physical product lane.</p>
-
-      <div class="pull-quote">
-        <p>"It's all just building boxes. Different boxes go inside different boxes."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-
-      <p>The throughline from the Alley Theatre's BAS system to a solar-powered microcontroller mining Bitcoin in a custom-printed enclosure is not a career pivot. It is the same systems discipline applied to a different scale. OT and ICS security work followed from the same logic — legacy PLC vulnerabilities across Modbus TCP, EtherNet/IP, and S7 protocol represent the same class of problem as a switchgear room filling with water. The failure mode differs. The gap between documented compliance and operational reality is identical.</p>
-      <p>Shannon identified the field engineer training gap in AI data centers publicly — on video — months before it surfaced as an industry conversation. The question he raised then remains unanswered at most facilities: how are engineers being trained differently to operate smart infrastructure? At most organizations, they are not.</p>
-
-      <div class="tags">
-        <span class="tag">PLC / HMI</span>
-        <span class="tag">SCADA · Modbus</span>
-        <span class="tag">OT / ICS Security</span>
-        <span class="tag">BAS · BMS</span>
-        <span class="tag">NFPA 79 · UL508A</span>
-        <span class="tag">NEC Compliance</span>
-        <span class="tag">ANSI/RIA15.06 · OSHA</span>
-        <span class="tag">Machine Commissioning</span>
-        <span class="tag">Thermal Management</span>
-        <span class="tag">Additive Manufacturing</span>
-        <span class="tag">ESP32 · Microcontrollers</span>
-        <span class="tag">Python · JSON</span>
-        <span class="tag">AI Agent Orchestration</span>
-        <span class="tag">3-Phase · Switchgear</span>
-        <span class="tag">Safety Committee Leadership</span>
-        <span class="tag">Schedules · Budgets</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- BLOCK 7 — POSITIONING -->
-  <div class="section" id="positioning">
-    <div class="sec-label">Positioning</div>
-    <div class="sec-body">
-      <h2>What the Paper Doesn't Show</h2>
-      <p>The credential gap on paper is real. What it does not reflect is also real.</p>
-      <p>Senior Automation and Controls Engineering — machine commissioning, PLC and HMI development, ANSI/RIA15.06 and OSHA compliant systems for robots, gantries, and conveyors, panel builds to NFPA 79 and UL508A, NEC-compliant electrical design, schedules and budgets — is the direct application of thirty years of documented field work. Not an approximation. Not a transition. A direct application.</p>
-
-      <div class="pull-quote">
-        <p>"We don't know what we don't know — and when people say that, they're right."</p>
-        <cite>— VanBlake Shannon</cite>
-      </div>
-
-      <p>The organizations that operate at the highest standard — where systems cannot fail and the margin for error is zero — require someone who has held that standard in the field, not learned it in a classroom. That record exists. It is documented. It is verifiable.</p>
-      <p>Target geography: Bastrop and San Marcos, Texas. The work and the proximity to family point to the same location.</p>
-
-      <hr class="rule">
-
-      <p style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gray); letter-spacing:0.12em; text-transform:uppercase; margin-top:24px;">
-        City of Houston Professional Stationary Engineer License &nbsp;·&nbsp; Associate's in Communications, Civil Engineering Minor — San Jacinto College &nbsp;·&nbsp; 30+ Years Field Mentorship &amp; Applied Technical Development
-      </p>
-    </div>
-  </div>
-
-  <!-- BLOCK 8 — CONTACT -->
-  <div class="section" id="contact">
-    <div class="sec-label">Contact</div>
-    <div class="sec-body">
-      <h2>Next Step</h2>
-      <p>Direct inquiries, recruiter outreach, and partnership conversations welcome.</p>
-      <div class="contact-grid">
-        <div class="contact-row"><a href="mailto:Van.shannon.id34@gmail.com">Van.shannon.id34@gmail.com</a></div>
-        <div class="contact-row"><span>Houston, TX &nbsp;·&nbsp; Open to Bastrop / San Marcos / Austin / Remote</span></div>
-        <div class="contact-row"><a href="https://www.linkedin.com/in/van-shannon-ai-ops-safety-sec-hdc-iot-infra-engineering/" target="_blank">LinkedIn — Van (Blake) Shannon</a></div>
-        <div class="contact-row"><a href="https://id34miningengineering-maker.github.io/solo-miner-id34/" target="_blank">ID34 Solo Miner — GitHub</a></div>
-        <div class="contact-row"><a href="https://youtube.com/@id34miningengineering?si=IqpyNB7Y51Ht99zN" target="_blank">YouTube — ID34 Mining & Engineering</a></div>
-        <div class="contact-row"><a href="https://kick.com/gbamfs" target="_blank">Community Media Channel — GBAMFS Kick</a></div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <div class="footer-l">ID34 Mining & Engineering &nbsp;·&nbsp; Houston, TX &nbsp;·&nbsp; Est. 2022</div>
-  <div class="footer-r">SOETT™ &nbsp;·&nbsp; Built Not Bought</div>
-</footer>
-
+        // Handle direct deep-linking on initial application boot
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#', '');
+            if(hash) {
+                switchSection(hash);
+            }
+        });
+    </script>
 </body>
 </html>
-/title>
-<meta name="description" content="30 years. Zero fatalities. Zero unplanned shutdowns. Senior Automation & Controls Engineer — Houston, TX.">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --black: #090909;
-    --dark: #101010;
-    --panel: #141414;
-    --panel2: #1a1a1a;
-    --border: #252525;
-    --border2: #2f2f2f;
-    
